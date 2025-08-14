@@ -15,7 +15,17 @@ public class Main {
             serverSocket.setReuseAddress(true);
 
             Socket clientSocket = serverSocket.accept();
+            OutputStream out = clientSocket.getOutputStream();
+            InputStream in = clientSocket.getInputStream();
             System.out.println("Accepted connection: listening on port 8080");
+
+            String response = "HTTP/1.1 200 OK\r\n\r\n";
+            response = "HTTP/1.1 404 Not Found\r\n\r\n";
+
+            out.write(response.getBytes(StandardCharsets.US_ASCII));
+            out.flush();
+            clientSocket.close();
+
         } catch (IOException e) {
             System.out.println("IOException:" +  e.getMessage());
         }
